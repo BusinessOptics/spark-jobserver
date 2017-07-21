@@ -22,11 +22,11 @@ class SessionContextFactory extends ScalaContextFactory {
   def makeContext(sparkConf: SparkConf, config: Config, contextName: String): C = {
     val builder = SparkSession.builder()
     builder.config(sparkConf).appName(contextName)
-    try {
+    /*try {
       builder.enableHiveSupport()
     } catch {
       case e: IllegalArgumentException => logger.warn(s"Hive support not enabled - ${e.getMessage()}")
-    }
+    }*/
     val spark = builder.getOrCreate()
     for ((k, v) <- SparkJobUtils.getHadoopConfig(config)) spark.sparkContext.hadoopConfiguration.set(k, v)
     SparkSessionContextLikeWrapper(spark)
